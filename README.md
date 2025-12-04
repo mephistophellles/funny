@@ -1,4 +1,4 @@
-
+![alt text](image.png)
 # THE CONSTRUCT: Entity Injection Terminal
 
 **THE CONSTRUCT** is a browser-based simulation node designed to bypass high-level graphical user interfaces (GUIs) and interact directly with the source code of the simulated reality. It is a single-file, zero-dependency environment that treats character generation not as "creative writing," but as **code compilation**.
