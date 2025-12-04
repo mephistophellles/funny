@@ -166,7 +166,46 @@
             color: white;
             box-shadow: none;
         }
+        #entropy-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        opacity: 0;
+        pointer-events: none; /* Allows clicks to pass through initially */
+        z-index: 9999;
+        transition: opacity 5s ease-in-out; /* A slow, terrifying fade */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        }
 
+        #entropy-msg {
+        color: var(--matrix-green);
+        font-size: 2rem;
+        font-weight: bold;
+        text-shadow: 0 0 20px var(--matrix-green);
+        animation: blink 1s infinite;
+        display: none; /* Hidden until fully idle */
+        }
+
+        /* The state of atrophy */
+        body.atrophy #entropy-overlay {
+            opacity: 0.98;
+            pointer-events: auto; /* Traps the user in the dark */
+            cursor: none;
+        }
+
+        body.atrophy #entropy-msg {
+            display: block;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }      
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -193,11 +232,12 @@
         cursor: crosshair;
         }
 
-.char-node:hover .hex-id {
-    color: red;
-    font-weight: bold;
-    content: "ERR_CORRUPT"; /* Visual trickery */
-}
+        .char-node:hover .hex-id {
+        color: red;
+        font-weight: bold;
+        content: "ERR_CORRUPT"; /* Visual trickery */
+        }
+
     </style>
 </head>
 <body>
@@ -231,6 +271,9 @@
         <!-- The Simulation Output -->
         <div class="grid" id="outputGrid">
             <!-- Entities appear here -->
+        </div>
+        <div id="entropy-overlay">
+            <div id="entropy-msg">> SIGNAL LOST. INITIATING SLEEP PROTOCOL...</div>
         </div>
     </div>
 
@@ -357,6 +400,30 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         });
+        // --- ENTROPY TIMER (SIGNAL DECAY) ---
+let idleSeconds = 0;
+const idleLimit = 30; // Seconds before the void takes over
+
+// The heart that beats every second
+setInterval(() => {
+    idleSeconds++;
+    if (idleSeconds >= idleLimit) {
+        document.body.classList.add('atrophy');
+    }
+}, 1000);
+
+// The Defibrillator: Wakes the system on any movement
+function resetEntropy() {
+    idleSeconds = 0;
+    if (document.body.classList.contains('atrophy')) {
+        document.body.classList.remove('atrophy');
+        // Optional: Play a "power up" sound here for effect
+    }
+}
+
+// Listen for signs of life
+const inputEvents = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'];
+inputEvents.forEach(evt => window.addEventListener(evt, resetEntropy));
     </script>
 </body>
 </html>
