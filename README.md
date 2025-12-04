@@ -11,10 +11,6 @@ This is not a game. It is a visual interface for data object instantiation.
     
 -   **Auditory Feedback:** Utilizes the browser’s native SpeechSynthesis API to vocalize entity protocols upon instantiation.
     
--   **Visual Decay:** CSS-driven glitch effects simulate rendering errors and data corruption on hover.
-    
--   **Viral Logic:** Implements probabilistic "Agent" interjection—randomly overwriting user input with hostile system enforcement entities to simulate a hostile network environment.
-    
 
 ### // THE PHILOSOPHY
 
